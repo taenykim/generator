@@ -1,0 +1,3 @@
+# Webpack boilerplate
+
+Hello webpack!
