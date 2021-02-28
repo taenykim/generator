@@ -57,7 +57,7 @@ var inputHandler = function (input) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 var run = function () {
-    var pt = _createPrompt();
+    var prompt = _createPrompt();
     var options = {
         quitCode: "q",
         successInput: ["tw", "jw"],
@@ -66,7 +66,7 @@ var run = function () {
         requestionMessage: "다시입력하세용 1. tw(ts웹팩), 2. jw(js웹팩), 3 q(종료) >",
         quitMessage: "종료!",
     };
-    pt(inputHandler, options);
+    prompt(inputHandler, options);
 };
 module.exports = function () {
     return {

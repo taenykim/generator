@@ -42,9 +42,9 @@ var createPrompt = function () {
                 });
             }
             else {
-                var pt = createPrompt();
+                var prompt_1 = createPrompt();
                 var newOptions = __assign(__assign({}, options), { questionMessage: requestionMessage });
-                pt(handler, newOptions);
+                prompt_1(handler, newOptions);
                 rl.close;
             }
         });
