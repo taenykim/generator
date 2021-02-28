@@ -11,6 +11,7 @@ const defaultOptions = {
   successMessage: "success!",
   requestionMessage: "re-question >",
   quitMessage: "quit!",
+  successInput: ["tw", "jw"],
 };
 
 const prompt = () => {
@@ -21,6 +22,7 @@ const prompt = () => {
       successMessage,
       requestionMessage,
       quitMessage,
+      successInput,
     } = options;
 
     rl.question(questionMessage, (input) => {
@@ -30,7 +32,7 @@ const prompt = () => {
         process.exit(0);
       }
 
-      if (input === "suc") {
+      if (successInput.includes(input)) {
         const output = handler(input);
         console.log(successMessage);
 
