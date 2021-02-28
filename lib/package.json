@@ -10,7 +10,7 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server --open"
   },
   "author": "taenykim",
   "license": "MIT",
