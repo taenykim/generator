@@ -9,7 +9,7 @@ const inputHandler = async (input) => {
   };
   const targetDirectoryName = path.join(
     __dirname,
-    `../lib${directoryName[input]}`
+    `../lib/${directoryName[input]}`
   );
   const destDirectoryName = path.join(process.cwd(), "temp");
 
