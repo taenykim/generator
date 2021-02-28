@@ -1,35 +1,28 @@
 {
-  "name": "webpack-boilerplate",
-  "version": "0.0.1",
-  "description": "my webpack boilerplate",
-  "main": "dist/index.min.js",
-  "keywords": [
-    "webpack",
-    "boilerplate"
-  ],
+  "name": "@taenykim/generator-webpack-boilerplate",
+  "version": "0.0.0-alpha4",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "bin": {
+    "run": "./bin/run"
+  },
   "scripts": {
-    "build": "webpack",
-    "start": "webpack",
-    "dev": "webpack-dev-server"
+    "start": "./bin/run"
   },
-  "author": "taenykim",
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/preset-env": "^7.11.5",
-    "babel-loader": "^8.1.0",
-    "css-loader": "^4.3.0",
-    "mini-css-extract-plugin": "^0.11.2",
-    "optimize-css-assets-webpack-plugin": "^5.0.4",
-    "sass": "^1.26.11",
-    "sass-loader": "^10.0.2",
-    "style-loader": "^1.2.1",
-    "terser-webpack-plugin": "^4.2.2",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.1.4"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taenykim/webpack-boilerplate.git"
   },
-  "dependencies": {}
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taenykim/webpack-boilerplate/issues"
+  },
+  "homepage": "https://github.com/taenykim/webpack-boilerplate#readme",
+  "dependencies": {
+    "fs-extra": "^9.1.0"
+  }
 }
