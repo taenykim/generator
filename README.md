@@ -1,3 +1,3 @@
-# Webpack boilerplate
+# Generator
 
-Hello webpack!
+📦

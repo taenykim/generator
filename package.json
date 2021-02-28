@@ -1,11 +1,8 @@
 {
-  "name": "@taenykim/generator-webpack-boilerplate",
-  "version": "0.0.0-alpha4",
-  "description": "",
+  "name": "@taenykim/generator",
+  "version": "0.0.0-alpha5",
+  "description": "generator my boilerplate",
   "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
   "bin": {
     "run": "./bin/run"
   },
@@ -14,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/taenykim/webpack-boilerplate.git"
+    "url": "git+https://github.com/taenykim/generator.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/taenykim/webpack-boilerplate/issues"
+    "url": "https://github.com/taenykim/generator/issues"
   },
-  "homepage": "https://github.com/taenykim/webpack-boilerplate#readme",
+  "homepage": "https://github.com/taenykim/generator#readme",
   "dependencies": {
     "fs-extra": "^9.1.0"
   }
