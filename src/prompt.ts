@@ -14,8 +14,8 @@ const defaultOptions = {
   successInput: ["tw", "jw"],
 };
 
-const prompt = () => {
-  return (handler, options = defaultOptions) => {
+const createPrompt = () => {
+  return (handler: Function, options = defaultOptions) => {
     const {
       quitCode,
       questionMessage,
@@ -25,7 +25,7 @@ const prompt = () => {
       successInput,
     } = options;
 
-    rl.question(questionMessage, (input) => {
+    rl.question(questionMessage, (input: string) => {
       if (input === quitCode) {
         rl.close();
         console.log(quitMessage);
@@ -41,14 +41,14 @@ const prompt = () => {
           process.exit(0);
         });
       } else {
-        const pt = prompt();
+        const prompt = createPrompt();
         const newOptions = { ...options, questionMessage: requestionMessage };
 
-        pt(handler, newOptions);
+        prompt(handler, newOptions);
         rl.close;
       }
     });
   };
 };
 
-module.exports = prompt;
+module.exports = createPrompt;

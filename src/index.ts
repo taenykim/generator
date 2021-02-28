@@ -1,8 +1,8 @@
 const fse = require("fs-extra");
 const path = require("path");
-const prompt = require("./prompt");
+const _createPrompt = require("./prompt");
 
-const inputHandler = async (input) => {
+const inputHandler = async (input: "tw" | "jw") => {
   const directoryName = {
     tw: "ts-webpack",
     jw: "js-webpack",
@@ -17,7 +17,7 @@ const inputHandler = async (input) => {
 };
 
 const run = () => {
-  const pt = prompt();
+  const prompt = _createPrompt();
 
   const options = {
     quitCode: "q",
@@ -29,7 +29,7 @@ const run = () => {
     quitMessage: "종료!",
   };
 
-  pt(inputHandler, options);
+  prompt(inputHandler, options);
 };
 
 module.exports = () => {
