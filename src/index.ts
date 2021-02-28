@@ -1,32 +1,50 @@
 const fse = require("fs-extra");
 const path = require("path");
-const _createPrompt = require("./prompt");
+const _createPrompt = require("./prompt-term");
 
-const inputHandler = async (input: "tw" | "jw") => {
-  const directoryName = {
-    tw: "ts-webpack",
-    jw: "js-webpack",
-  };
-  const targetDirectoryName = path.join(
-    __dirname,
-    `../lib/${directoryName[input]}`
-  );
-  const destDirectoryName = path.join(process.cwd(), "temp");
+interface ItemValue {
+  dirName?: string;
+  description: string;
+}
 
-  await fse.copy(targetDirectoryName, destDirectoryName);
+export interface Items {
+  [title: string]: ItemValue;
+}
+
+const items: Items = {
+  "ts-webpack": {
+    dirName: "ts-webpack",
+    description: "TypeScript + Webpack",
+  },
+  "js-webpack": {
+    dirName: "js-webpack",
+    description: "JavaScript + Webpack",
+  },
+  quit: {
+    description: "quit generator",
+  },
+};
+
+const dest = "temp";
+
+const inputHandler = async (input: keyof Items) => {
+  if (input !== "quit") {
+    const targetDirectoryName = path.join(
+      __dirname,
+      `../lib/${items[input].dirName}`
+    );
+    const destDirectoryName = path.join(process.cwd(), dest);
+
+    await fse.copy(targetDirectoryName, destDirectoryName);
+  }
+  process.exit(0);
 };
 
 const run = () => {
   const prompt = _createPrompt();
 
   const options = {
-    quitCode: "q",
-    successInput: ["tw", "jw"],
-    questionMessage: "1. tw(ts웹팩), 2. jw(js웹팩), 3 q(종료)>",
-    successMessage: "성공!",
-    requestionMessage:
-      "다시입력하세용 1. tw(ts웹팩), 2. jw(js웹팩), 3 q(종료) >",
-    quitMessage: "종료!",
+    items,
   };
 
   prompt(inputHandler, options);

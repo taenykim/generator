@@ -35,23 +35,38 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var fse = require("fs-extra");
 var path = require("path");
-var _createPrompt = require("./prompt");
+var _createPrompt = require("./prompt-term");
+var items = {
+    "ts-webpack": {
+        dirName: "ts-webpack",
+        description: "TypeScript + Webpack",
+    },
+    "js-webpack": {
+        dirName: "js-webpack",
+        description: "JavaScript + Webpack",
+    },
+    quit: {
+        description: "quit generator",
+    },
+};
+var dest = "temp";
 var inputHandler = function (input) { return __awaiter(void 0, void 0, void 0, function () {
-    var directoryName, targetDirectoryName, destDirectoryName;
+    var targetDirectoryName, destDirectoryName;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                directoryName = {
-                    tw: "ts-webpack",
-                    jw: "js-webpack",
-                };
-                targetDirectoryName = path.join(__dirname, "../lib/" + directoryName[input]);
-                destDirectoryName = path.join(process.cwd(), "temp");
+                if (!(input !== "quit")) return [3 /*break*/, 2];
+                targetDirectoryName = path.join(__dirname, "../lib/" + items[input].dirName);
+                destDirectoryName = path.join(process.cwd(), dest);
                 return [4 /*yield*/, fse.copy(targetDirectoryName, destDirectoryName)];
             case 1:
                 _a.sent();
+                _a.label = 2;
+            case 2:
+                process.exit(0);
                 return [2 /*return*/];
         }
     });
@@ -59,12 +74,7 @@ var inputHandler = function (input) { return __awaiter(void 0, void 0, void 0, f
 var run = function () {
     var prompt = _createPrompt();
     var options = {
-        quitCode: "q",
-        successInput: ["tw", "jw"],
-        questionMessage: "1. tw(ts웹팩), 2. jw(js웹팩), 3 q(종료)>",
-        successMessage: "성공!",
-        requestionMessage: "다시입력하세용 1. tw(ts웹팩), 2. jw(js웹팩), 3 q(종료) >",
-        quitMessage: "종료!",
+        items: items,
     };
     prompt(inputHandler, options);
 };
