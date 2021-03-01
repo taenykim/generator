@@ -15,6 +15,8 @@ const defaultOptions: DefaultPromptOptions = {
   SUCCESS_MESSAGE: "\n생성되었습니다!\n",
   FAILURE_MESSAGE: "\n아무일도 일어나지 않았습니다!\n",
   QUIT_MESSAGE: "\n종료되었습니다!\n",
+  EXIST_DEST_ERROR_MESSAGE: '\n디렉토리가 존재합니다.\n"',
+  EXIST_TARGET_ERROR_MESSAGE: "\n현재 디렉토리에 파일들이 존재합니다\n",
 };
 
 const getDestDirName = async (defaultDestDirName: string) => {
@@ -47,7 +49,7 @@ const createDirectory = async (
 
   const isExistDestDirPath = fs.existsSync(destDirPath);
 
-  if (isExistDestDirPath) return "exist-dest";
+  if (destDirName !== "." && isExistDestDirPath) return "exist-dest";
 
   if (destDirName === ".") {
     const datas = await fsp.readdir(destDirPath);
@@ -69,6 +71,8 @@ const createPrompt = async (
     SUCCESS_MESSAGE,
     FAILURE_MESSAGE,
     QUIT_MESSAGE,
+    EXIST_DEST_ERROR_MESSAGE,
+    EXIST_TARGET_ERROR_MESSAGE,
   } = { ...defaultOptions, ...options };
 
   term.cyan(QUESTION_MESSAGE1);
@@ -91,11 +95,11 @@ const createPrompt = async (
   );
 
   if (selectedItemType === "exist-dest") {
-    term.red("디렉토리가 존재합니다.\n");
+    term.red(EXIST_DEST_ERROR_MESSAGE);
     createPrompt(selectItemMap, options);
   }
   if (selectedItemType === "exist-target") {
-    term.red("현재 디렉토리에 파일들이 존재합니다\n");
+    term.red(EXIST_TARGET_ERROR_MESSAGE);
     createPrompt(selectItemMap, options);
   }
   if (selectedItemType === "boiler-plate") {

@@ -63,6 +63,8 @@ var defaultOptions = {
     SUCCESS_MESSAGE: "\n생성되었습니다!\n",
     FAILURE_MESSAGE: "\n아무일도 일어나지 않았습니다!\n",
     QUIT_MESSAGE: "\n종료되었습니다!\n",
+    EXIST_DEST_ERROR_MESSAGE: '\n디렉토리가 존재합니다.\n"',
+    EXIST_TARGET_ERROR_MESSAGE: "\n현재 디렉토리에 파일들이 존재합니다\n",
 };
 var getDestDirName = function (defaultDestDirName) { return __awaiter(void 0, void 0, void 0, function () {
     var input;
@@ -106,7 +108,7 @@ var createDirectory = function (selectItemMap, input, destDirName) { return __aw
                 targetDirPath = path_1.default.join(__dirname, targetDirName);
                 destDirPath = path_1.default.join(process.cwd(), destDirName);
                 isExistDestDirPath = fs_1.default.existsSync(destDirPath);
-                if (isExistDestDirPath)
+                if (destDirName !== "." && isExistDestDirPath)
                     return [2 /*return*/, "exist-dest"];
                 if (!(destDirName === ".")) return [3 /*break*/, 2];
                 return [4 /*yield*/, fsp.readdir(destDirPath)];
@@ -125,11 +127,11 @@ var createDirectory = function (selectItemMap, input, destDirName) { return __aw
 var createPrompt = function (selectItemMap, options) {
     if (options === void 0) { options = defaultOptions; }
     return __awaiter(void 0, void 0, void 0, function () {
-        var _a, DEFAULT_DEST_DIR_NAME, QUESTION_MESSAGE1, QUESTION_MESSAGE2, SUCCESS_MESSAGE, FAILURE_MESSAGE, QUIT_MESSAGE, destDirName, selectItemValues, descriptions, selectedItem, selectedItemType;
+        var _a, DEFAULT_DEST_DIR_NAME, QUESTION_MESSAGE1, QUESTION_MESSAGE2, SUCCESS_MESSAGE, FAILURE_MESSAGE, QUIT_MESSAGE, EXIST_DEST_ERROR_MESSAGE, EXIST_TARGET_ERROR_MESSAGE, destDirName, selectItemValues, descriptions, selectedItem, selectedItemType;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = __assign(__assign({}, defaultOptions), options), DEFAULT_DEST_DIR_NAME = _a.DEFAULT_DEST_DIR_NAME, QUESTION_MESSAGE1 = _a.QUESTION_MESSAGE1, QUESTION_MESSAGE2 = _a.QUESTION_MESSAGE2, SUCCESS_MESSAGE = _a.SUCCESS_MESSAGE, FAILURE_MESSAGE = _a.FAILURE_MESSAGE, QUIT_MESSAGE = _a.QUIT_MESSAGE;
+                    _a = __assign(__assign({}, defaultOptions), options), DEFAULT_DEST_DIR_NAME = _a.DEFAULT_DEST_DIR_NAME, QUESTION_MESSAGE1 = _a.QUESTION_MESSAGE1, QUESTION_MESSAGE2 = _a.QUESTION_MESSAGE2, SUCCESS_MESSAGE = _a.SUCCESS_MESSAGE, FAILURE_MESSAGE = _a.FAILURE_MESSAGE, QUIT_MESSAGE = _a.QUIT_MESSAGE, EXIST_DEST_ERROR_MESSAGE = _a.EXIST_DEST_ERROR_MESSAGE, EXIST_TARGET_ERROR_MESSAGE = _a.EXIST_TARGET_ERROR_MESSAGE;
                     term.cyan(QUESTION_MESSAGE1);
                     return [4 /*yield*/, getDestDirName(DEFAULT_DEST_DIR_NAME)];
                 case 1:
@@ -144,11 +146,11 @@ var createPrompt = function (selectItemMap, options) {
                 case 3:
                     selectedItemType = _b.sent();
                     if (selectedItemType === "exist-dest") {
-                        term.red("디렉토리가 존재합니다.\n");
+                        term.red(EXIST_DEST_ERROR_MESSAGE);
                         createPrompt(selectItemMap, options);
                     }
                     if (selectedItemType === "exist-target") {
-                        term.red("현재 디렉토리에 파일들이 존재합니다\n");
+                        term.red(EXIST_TARGET_ERROR_MESSAGE);
                         createPrompt(selectItemMap, options);
                     }
                     if (selectedItemType === "boiler-plate") {

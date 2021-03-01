@@ -15,6 +15,8 @@ export interface PromptOptions {
   SUCCESS_MESSAGE?: string;
   FAILURE_MESSAGE?: string;
   QUIT_MESSAGE?: string;
+  EXIST_DEST_ERROR_MESSAGE?: string;
+  EXIST_TARGET_ERROR_MESSAGE?: string;
 }
 
 export interface DefaultPromptOptions {
@@ -24,4 +26,6 @@ export interface DefaultPromptOptions {
   SUCCESS_MESSAGE: string;
   FAILURE_MESSAGE: string;
   QUIT_MESSAGE: string;
+  EXIST_DEST_ERROR_MESSAGE: string;
+  EXIST_TARGET_ERROR_MESSAGE: string;
 }
