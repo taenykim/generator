@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var data_1 = require("./data");
-var prompt_term_1 = __importDefault(require("./prompt-term"));
+var prompt_1 = __importDefault(require("./prompt"));
 var DEFAULT_DEST_DIR_NAME = "temp";
 var QUESTION_MESSAGE = "생성할 보일러 플레이트를 선택해주세요.\n";
 var run = function () {
@@ -13,7 +13,7 @@ var run = function () {
         defaultDestDirName: DEFAULT_DEST_DIR_NAME,
         questionMessage: QUESTION_MESSAGE,
     };
-    prompt_term_1.default(selectItemMap, options);
+    prompt_1.default(selectItemMap, options);
 };
 module.exports = function () {
     return {
