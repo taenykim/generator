@@ -80,13 +80,16 @@ var createPrompt = function (selectItemMap, options) {
                     return [4 /*yield*/, term.inputField({}).promise];
                 case 1:
                     input = _a.sent();
-                    if (input === undefined) {
+                    console.log(input);
+                    if (input === undefined || input === "") {
+                        destDirName = defaultDestDirName;
                     }
                     else if (input === ".") {
                         destDirName = ".";
                     }
-                    else
+                    else {
                         destDirName = input;
+                    }
                     selectItemValues = selectItemMap.values();
                     descriptions = Array.from(selectItemValues).map(function (value) { return value.description; });
                     term.cyan(questionMessage);

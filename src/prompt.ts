@@ -44,10 +44,12 @@ const createPrompt = async (
   const input = await term.inputField({}).promise;
   console.log(input);
 
-  if (input !== undefined) {
-    destDirName = input;
+  if (input === undefined || input === "") {
+    destDirName = defaultDestDirName;
   } else if (input === ".") {
     destDirName = ".";
+  } else {
+    destDirName = input;
   }
 
   const selectItemValues = selectItemMap.values();
