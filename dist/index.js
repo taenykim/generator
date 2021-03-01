@@ -5,13 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var data_1 = require("./data");
 var prompt_1 = __importDefault(require("./prompt"));
-var DEFAULT_DEST_DIR_NAME = "temp";
-var QUESTION_MESSAGE = "생성할 보일러 플레이트를 선택해주세요.\n";
+var DEFAULT_DEST_DIR_NAME = "my-app";
+var QUESTION_MESSAGE1 = "ㅋ";
+var QUESTION_MESSAGE2 = "생성할 보일러 플레이트를 선택해주세요.\n";
 var run = function () {
     var selectItemMap = new Map(data_1.selectItems);
     var options = {
-        defaultDestDirName: DEFAULT_DEST_DIR_NAME,
-        questionMessage: QUESTION_MESSAGE,
+        DEFAULT_DEST_DIR_NAME: DEFAULT_DEST_DIR_NAME,
+        QUESTION_MESSAGE1: QUESTION_MESSAGE1,
+        QUESTION_MESSAGE2: QUESTION_MESSAGE2,
     };
     prompt_1.default(selectItemMap, options);
 };
