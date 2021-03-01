@@ -42,10 +42,13 @@ const createPrompt = async (
     "생성할 프로젝트명을 입력하세요(default : my-app, 현재위치: . ) > "
   );
   const input = await term.inputField({}).promise;
-  if (input === undefined) {
+  console.log(input);
+
+  if (input !== undefined) {
+    destDirName = input;
   } else if (input === ".") {
     destDirName = ".";
-  } else destDirName = input;
+  }
 
   const selectItemValues = selectItemMap.values();
   const descriptions = Array.from(selectItemValues).map(
