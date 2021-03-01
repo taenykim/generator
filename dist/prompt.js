@@ -52,8 +52,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
+var fs_1 = __importDefault(require("fs"));
 var terminal_kit_1 = __importDefault(require("terminal-kit"));
 var term = terminal_kit_1.default.terminal;
+var fsp = fs_1.default.promises;
 var defaultOptions = {
     DEFAULT_DEST_DIR_NAME: "my-app",
     QUESTION_MESSAGE1: "생성할 프로젝트명을 입력하세요(default : my-app, 현재위치: . ) > ",
@@ -69,15 +71,12 @@ var getDestDirName = function (defaultDestDirName) { return __awaiter(void 0, vo
             case 0: return [4 /*yield*/, term.inputField({}).promise];
             case 1:
                 input = _a.sent();
-                if (input === undefined || input === "") {
+                if (input === undefined || input === "")
                     return [2 /*return*/, defaultDestDirName];
-                }
-                else if (input === ".") {
+                else if (input === ".")
                     return [2 /*return*/, "."];
-                }
-                else {
+                else
                     return [2 /*return*/, input];
-                }
                 return [2 /*return*/];
         }
     });
@@ -94,22 +93,31 @@ var getSelectItemType = function (descriptions) { return __awaiter(void 0, void 
     });
 }); };
 var createDirectory = function (selectItemMap, input, destDirName) { return __awaiter(void 0, void 0, void 0, function () {
-    var targetItemValue, targetDirectoryName, destDirectoryName;
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var targetItemValue, targetDirName, targetDirPath, destDirPath, isExistDestDirPath, datas;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 targetItemValue = selectItemMap.get(input);
-                if (targetItemValue === undefined) {
+                if (targetItemValue === undefined)
                     return [2 /*return*/];
-                }
                 if (targetItemValue.type === "quit")
                     return [2 /*return*/, targetItemValue.type];
-                targetDirectoryName = path_1.default.join(__dirname, "../lib/" + ((_a = selectItemMap.get(input)) === null || _a === void 0 ? void 0 : _a.dirName));
-                destDirectoryName = path_1.default.join(process.cwd(), destDirName);
-                return [4 /*yield*/, fs_extra_1.default.copy(targetDirectoryName, destDirectoryName)];
+                targetDirName = "../lib/" + targetItemValue.dirName;
+                targetDirPath = path_1.default.join(__dirname, targetDirName);
+                destDirPath = path_1.default.join(process.cwd(), destDirName);
+                isExistDestDirPath = fs_1.default.existsSync(destDirPath);
+                if (isExistDestDirPath)
+                    return [2 /*return*/, "exist-dest"];
+                if (!(destDirName === ".")) return [3 /*break*/, 2];
+                return [4 /*yield*/, fsp.readdir(destDirPath)];
             case 1:
-                _b.sent();
+                datas = _a.sent();
+                if (datas.length > 0)
+                    return [2 /*return*/, "exist-target"];
+                _a.label = 2;
+            case 2: return [4 /*yield*/, fs_extra_1.default.copy(targetDirPath, destDirPath)];
+            case 3:
+                _a.sent();
                 return [2 /*return*/, targetItemValue.type];
         }
     });
@@ -135,13 +143,26 @@ var createPrompt = function (selectItemMap, options) {
                     return [4 /*yield*/, createDirectory(selectItemMap, selectedItem.selectedIndex, destDirName)];
                 case 3:
                     selectedItemType = _b.sent();
-                    if (selectedItemType === "boiler-plate")
+                    if (selectedItemType === "exist-dest") {
+                        term.red("디렉토리가 존재합니다.\n");
+                        createPrompt(selectItemMap, options);
+                    }
+                    if (selectedItemType === "exist-target") {
+                        term.red("현재 디렉토리에 파일들이 존재합니다\n");
+                        createPrompt(selectItemMap, options);
+                    }
+                    if (selectedItemType === "boiler-plate") {
                         term.cyan(SUCCESS_MESSAGE);
-                    if (selectedItemType === "quit")
+                        process.exit(0);
+                    }
+                    if (selectedItemType === "quit") {
                         term.red(FAILURE_MESSAGE);
-                    if (!selectedItemType)
+                        process.exit(0);
+                    }
+                    if (!selectedItemType) {
                         term.white(QUIT_MESSAGE);
-                    process.exit(0);
+                        process.exit(0);
+                    }
                     return [2 /*return*/];
             }
         });

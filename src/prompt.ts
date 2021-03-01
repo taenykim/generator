@@ -1,9 +1,11 @@
 import path from "path";
 import fse from "fs-extra";
+import fs from "fs";
 import terminalKit from "terminal-kit";
 import { DefaultPromptOptions, PromptOptions, SelectItemMap } from "types";
 
 const term = terminalKit.terminal;
+const fsp = fs.promises;
 
 const defaultOptions: DefaultPromptOptions = {
   DEFAULT_DEST_DIR_NAME: "my-app",
@@ -18,13 +20,9 @@ const defaultOptions: DefaultPromptOptions = {
 const getDestDirName = async (defaultDestDirName: string) => {
   const input = await term.inputField({}).promise;
 
-  if (input === undefined || input === "") {
-    return defaultDestDirName;
-  } else if (input === ".") {
-    return ".";
-  } else {
-    return input;
-  }
+  if (input === undefined || input === "") return defaultDestDirName;
+  else if (input === ".") return ".";
+  else return input;
 };
 
 const getSelectItemType = async (descriptions: string[]) => {
@@ -40,19 +38,23 @@ const createDirectory = async (
   destDirName: string
 ) => {
   const targetItemValue = selectItemMap.get(input);
-  if (targetItemValue === undefined) {
-    return;
-  }
-
+  if (targetItemValue === undefined) return;
   if (targetItemValue.type === "quit") return targetItemValue.type;
 
-  const targetDirectoryName = path.join(
-    __dirname,
-    `../lib/${selectItemMap.get(input)?.dirName}`
-  );
-  const destDirectoryName = path.join(process.cwd(), destDirName);
+  const targetDirName = `../lib/${targetItemValue.dirName}`;
+  const targetDirPath = path.join(__dirname, targetDirName);
+  const destDirPath = path.join(process.cwd(), destDirName);
 
-  await fse.copy(targetDirectoryName, destDirectoryName);
+  const isExistDestDirPath = fs.existsSync(destDirPath);
+
+  if (isExistDestDirPath) return "exist-dest";
+
+  if (destDirName === ".") {
+    const datas = await fsp.readdir(destDirPath);
+    if (datas.length > 0) return "exist-target";
+  }
+
+  await fse.copy(targetDirPath, destDirPath);
   return targetItemValue.type;
 };
 
@@ -88,10 +90,26 @@ const createPrompt = async (
     destDirName
   );
 
-  if (selectedItemType === "boiler-plate") term.cyan(SUCCESS_MESSAGE);
-  if (selectedItemType === "quit") term.red(FAILURE_MESSAGE);
-  if (!selectedItemType) term.white(QUIT_MESSAGE);
-  process.exit(0);
+  if (selectedItemType === "exist-dest") {
+    term.red("디렉토리가 존재합니다.\n");
+    createPrompt(selectItemMap, options);
+  }
+  if (selectedItemType === "exist-target") {
+    term.red("현재 디렉토리에 파일들이 존재합니다\n");
+    createPrompt(selectItemMap, options);
+  }
+  if (selectedItemType === "boiler-plate") {
+    term.cyan(SUCCESS_MESSAGE);
+    process.exit(0);
+  }
+  if (selectedItemType === "quit") {
+    term.red(FAILURE_MESSAGE);
+    process.exit(0);
+  }
+  if (!selectedItemType) {
+    term.white(QUIT_MESSAGE);
+    process.exit(0);
+  }
 };
 
 export default createPrompt;

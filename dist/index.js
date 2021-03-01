@@ -6,8 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var data_1 = require("./data");
 var prompt_1 = __importDefault(require("./prompt"));
 var DEFAULT_DEST_DIR_NAME = "my-app";
-var QUESTION_MESSAGE1 = "ㅋ";
-var QUESTION_MESSAGE2 = "생성할 보일러 플레이트를 선택해주세요.\n";
+var QUESTION_MESSAGE1 = "생성할 프로젝트명을 입력하세요(default : my-app, 현재위치: . ) > ";
+var QUESTION_MESSAGE2 = "\n\n생성할 보일러 플레이트를 선택해주세요.\n";
+// const SUCCESS_MESSAGE = "\n생성되었습니다!\n";
+// const FAILURE_MESSAGE = "\n아무일도 일어나지 않았습니다!\n";
+// const QUIT_MESSAGE = "\n종료되었습니다!\n";
 var run = function () {
     var selectItemMap = new Map(data_1.selectItems);
     var options = {
