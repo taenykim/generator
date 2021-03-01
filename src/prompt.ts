@@ -8,7 +8,7 @@ const term = terminalKit.terminal;
 const fsp = fs.promises;
 
 const defaultOptions: DefaultPromptOptions = {
-  DEFAULT_DEST_DIR_NAME: "my-app",
+  defaultDestDirName: "my-app",
   QUESTION_MESSAGE1:
     "생성할 프로젝트명을 입력하세요(default : my-app, 현재위치: . ) > ",
   QUESTION_MESSAGE2: "생성할 보일러 플레이트를 선택해주세요.\n",
@@ -65,7 +65,7 @@ const createPrompt = async (
   options: PromptOptions = defaultOptions
 ) => {
   const {
-    DEFAULT_DEST_DIR_NAME,
+    defaultDestDirName,
     QUESTION_MESSAGE1,
     QUESTION_MESSAGE2,
     SUCCESS_MESSAGE,
@@ -77,7 +77,7 @@ const createPrompt = async (
 
   term.cyan(QUESTION_MESSAGE1);
 
-  const destDirName = await getDestDirName(DEFAULT_DEST_DIR_NAME);
+  const destDirName = await getDestDirName(defaultDestDirName);
 
   const selectItemValues = selectItemMap.values();
   const descriptions = Array.from(selectItemValues).map(

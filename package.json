@@ -1,11 +1,9 @@
 {
   "name": "@taenykim/generator",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "my boilerplate generator",
-  "main": "index.js",
-  "bin": {
-    "run": "./bin/run"
-  },
+  "main": "index.ts",
+  "bin": "./bin/run",
   "scripts": {
     "dev": "tsc && ./bin/run",
     "build": "tsc"

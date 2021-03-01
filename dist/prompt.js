@@ -57,7 +57,7 @@ var terminal_kit_1 = __importDefault(require("terminal-kit"));
 var term = terminal_kit_1.default.terminal;
 var fsp = fs_1.default.promises;
 var defaultOptions = {
-    DEFAULT_DEST_DIR_NAME: "my-app",
+    defaultDestDirName: "my-app",
     QUESTION_MESSAGE1: "생성할 프로젝트명을 입력하세요(default : my-app, 현재위치: . ) > ",
     QUESTION_MESSAGE2: "생성할 보일러 플레이트를 선택해주세요.\n",
     SUCCESS_MESSAGE: "\n생성되었습니다!\n",
@@ -127,13 +127,13 @@ var createDirectory = function (selectItemMap, input, destDirName) { return __aw
 var createPrompt = function (selectItemMap, options) {
     if (options === void 0) { options = defaultOptions; }
     return __awaiter(void 0, void 0, void 0, function () {
-        var _a, DEFAULT_DEST_DIR_NAME, QUESTION_MESSAGE1, QUESTION_MESSAGE2, SUCCESS_MESSAGE, FAILURE_MESSAGE, QUIT_MESSAGE, EXIST_DEST_ERROR_MESSAGE, EXIST_TARGET_ERROR_MESSAGE, destDirName, selectItemValues, descriptions, selectedItem, selectedItemType;
+        var _a, defaultDestDirName, QUESTION_MESSAGE1, QUESTION_MESSAGE2, SUCCESS_MESSAGE, FAILURE_MESSAGE, QUIT_MESSAGE, EXIST_DEST_ERROR_MESSAGE, EXIST_TARGET_ERROR_MESSAGE, destDirName, selectItemValues, descriptions, selectedItem, selectedItemType;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = __assign(__assign({}, defaultOptions), options), DEFAULT_DEST_DIR_NAME = _a.DEFAULT_DEST_DIR_NAME, QUESTION_MESSAGE1 = _a.QUESTION_MESSAGE1, QUESTION_MESSAGE2 = _a.QUESTION_MESSAGE2, SUCCESS_MESSAGE = _a.SUCCESS_MESSAGE, FAILURE_MESSAGE = _a.FAILURE_MESSAGE, QUIT_MESSAGE = _a.QUIT_MESSAGE, EXIST_DEST_ERROR_MESSAGE = _a.EXIST_DEST_ERROR_MESSAGE, EXIST_TARGET_ERROR_MESSAGE = _a.EXIST_TARGET_ERROR_MESSAGE;
+                    _a = __assign(__assign({}, defaultOptions), options), defaultDestDirName = _a.defaultDestDirName, QUESTION_MESSAGE1 = _a.QUESTION_MESSAGE1, QUESTION_MESSAGE2 = _a.QUESTION_MESSAGE2, SUCCESS_MESSAGE = _a.SUCCESS_MESSAGE, FAILURE_MESSAGE = _a.FAILURE_MESSAGE, QUIT_MESSAGE = _a.QUIT_MESSAGE, EXIST_DEST_ERROR_MESSAGE = _a.EXIST_DEST_ERROR_MESSAGE, EXIST_TARGET_ERROR_MESSAGE = _a.EXIST_TARGET_ERROR_MESSAGE;
                     term.cyan(QUESTION_MESSAGE1);
-                    return [4 /*yield*/, getDestDirName(DEFAULT_DEST_DIR_NAME)];
+                    return [4 /*yield*/, getDestDirName(defaultDestDirName)];
                 case 1:
                     destDirName = _b.sent();
                     selectItemValues = selectItemMap.values();

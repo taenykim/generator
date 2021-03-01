@@ -1,15 +1,20 @@
-export interface SelectItemValue {
-  type: "boiler-plate" | "quit";
-  dirName?: string;
+interface QuitSelectItem {
+  type: "quit";
   description: string;
 }
 
-export type SelectItems = Array<[number, SelectItemValue]>;
+interface BoilerSelectItem {
+  type: "boiler-plate";
+  dirName: string;
+  description: string;
+}
 
-export type SelectItemMap = Map<number, SelectItemValue>;
+export type SelectItems = Array<[number, QuitSelectItem | BoilerSelectItem]>;
+
+export type SelectItemMap = Map<number, QuitSelectItem | BoilerSelectItem>;
 
 export interface PromptOptions {
-  DEFAULT_DEST_DIR_NAME?: string;
+  defaultDestDirName?: string;
   QUESTION_MESSAGE1?: string;
   QUESTION_MESSAGE2?: string;
   SUCCESS_MESSAGE?: string;
@@ -19,13 +24,4 @@ export interface PromptOptions {
   EXIST_TARGET_ERROR_MESSAGE?: string;
 }
 
-export interface DefaultPromptOptions {
-  DEFAULT_DEST_DIR_NAME: string;
-  QUESTION_MESSAGE1: string;
-  QUESTION_MESSAGE2: string;
-  SUCCESS_MESSAGE: string;
-  FAILURE_MESSAGE: string;
-  QUIT_MESSAGE: string;
-  EXIST_DEST_ERROR_MESSAGE: string;
-  EXIST_TARGET_ERROR_MESSAGE: string;
-}
+export type DefaultPromptOptions = Required<PromptOptions>;
