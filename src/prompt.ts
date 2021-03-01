@@ -13,10 +13,8 @@ const defaultOptions = {
 const inputHandler = async (
   selectItemMap: SelectItemMap,
   input: number,
-  options: PromptOptions
+  destDirName: string
 ) => {
-  const { defaultDestDirName } = options;
-
   const targetItemValue = selectItemMap.get(input);
 
   if (targetItemValue) {
@@ -26,7 +24,7 @@ const inputHandler = async (
       __dirname,
       `../lib/${selectItemMap.get(input)?.dirName}`
     );
-    const destDirectoryName = path.join(process.cwd(), defaultDestDirName);
+    const destDirectoryName = path.join(process.cwd(), destDirName);
 
     await fse.copy(targetDirectoryName, destDirectoryName);
     return targetItemValue.type;
@@ -37,14 +35,24 @@ const createPrompt = async (
   selectItemMap: SelectItemMap,
   options: PromptOptions = defaultOptions
 ) => {
-  const { questionMessage } = options;
-  term.cyan(questionMessage);
+  const { questionMessage, defaultDestDirName } = options;
+  let destDirName = defaultDestDirName;
+
+  term.cyan(
+    "생성할 프로젝트명을 입력하세요(default : my-app, 현재위치: . ) > "
+  );
+  const input = await term.inputField({}).promise;
+  if (input === undefined) {
+  } else if (input === ".") {
+    destDirName = ".";
+  } else destDirName = input;
 
   const selectItemValues = selectItemMap.values();
   const descriptions = Array.from(selectItemValues).map(
     (value) => value.description
   );
 
+  term.cyan(questionMessage);
   term.singleColumnMenu(
     descriptions,
     {
@@ -60,7 +68,7 @@ const createPrompt = async (
       const output = inputHandler(
         selectItemMap,
         response.selectedIndex,
-        options
+        destDirName
       );
 
       output

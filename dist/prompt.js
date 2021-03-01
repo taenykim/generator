@@ -47,19 +47,18 @@ var defaultOptions = {
     defaultDestDirName: "my-boilerplate",
     questionMessage: "생성할 보일러 플레이트를 선택해주세요.\n",
 };
-var inputHandler = function (selectItemMap, input, options) { return __awaiter(void 0, void 0, void 0, function () {
-    var defaultDestDirName, targetItemValue, targetDirectoryName, destDirectoryName;
+var inputHandler = function (selectItemMap, input, destDirName) { return __awaiter(void 0, void 0, void 0, function () {
+    var targetItemValue, targetDirectoryName, destDirectoryName;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                defaultDestDirName = options.defaultDestDirName;
                 targetItemValue = selectItemMap.get(input);
                 if (!targetItemValue) return [3 /*break*/, 2];
                 if (targetItemValue.type === "quit")
                     return [2 /*return*/, targetItemValue.type];
                 targetDirectoryName = path_1.default.join(__dirname, "../lib/" + ((_a = selectItemMap.get(input)) === null || _a === void 0 ? void 0 : _a.dirName));
-                destDirectoryName = path_1.default.join(process.cwd(), defaultDestDirName);
+                destDirectoryName = path_1.default.join(process.cwd(), destDirName);
                 return [4 /*yield*/, fs_extra_1.default.copy(targetDirectoryName, destDirectoryName)];
             case 1:
                 _b.sent();
@@ -71,37 +70,52 @@ var inputHandler = function (selectItemMap, input, options) { return __awaiter(v
 var createPrompt = function (selectItemMap, options) {
     if (options === void 0) { options = defaultOptions; }
     return __awaiter(void 0, void 0, void 0, function () {
-        var questionMessage, selectItemValues, descriptions;
+        var questionMessage, defaultDestDirName, destDirName, input, selectItemValues, descriptions;
         return __generator(this, function (_a) {
-            questionMessage = options.questionMessage;
-            term.cyan(questionMessage);
-            selectItemValues = selectItemMap.values();
-            descriptions = Array.from(selectItemValues).map(function (value) { return value.description; });
-            term.singleColumnMenu(descriptions, {
-                style: term.green,
-                selectedStyle: term.bold.black.bgWhite,
-            }, function (error, response) {
-                if (error) {
-                    console.error(error);
-                    process.exit(0);
-                }
-                var output = inputHandler(selectItemMap, response.selectedIndex, options);
-                output
-                    .then(function (res) {
-                    if (res === "boiler-plate")
-                        term.cyan("\n생성되었습니다!\n");
-                    if (res === "quit")
-                        term.red("\n종료되었습니다!\n");
-                    if (!res)
-                        term.white("아무일도 일어나지않았습니다!\n");
-                    process.exit(0);
-                })
-                    .catch(function (e) {
-                    console.error(e);
-                    process.exit(0);
-                });
-            });
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    questionMessage = options.questionMessage, defaultDestDirName = options.defaultDestDirName;
+                    destDirName = defaultDestDirName;
+                    term.cyan("생성할 프로젝트명을 입력하세요(default : my-app, 현재위치: . ) > ");
+                    return [4 /*yield*/, term.inputField({}).promise];
+                case 1:
+                    input = _a.sent();
+                    if (input === undefined) {
+                    }
+                    else if (input === ".") {
+                        destDirName = ".";
+                    }
+                    else
+                        destDirName = input;
+                    selectItemValues = selectItemMap.values();
+                    descriptions = Array.from(selectItemValues).map(function (value) { return value.description; });
+                    term.cyan(questionMessage);
+                    term.singleColumnMenu(descriptions, {
+                        style: term.green,
+                        selectedStyle: term.bold.black.bgWhite,
+                    }, function (error, response) {
+                        if (error) {
+                            console.error(error);
+                            process.exit(0);
+                        }
+                        var output = inputHandler(selectItemMap, response.selectedIndex, destDirName);
+                        output
+                            .then(function (res) {
+                            if (res === "boiler-plate")
+                                term.cyan("\n생성되었습니다!\n");
+                            if (res === "quit")
+                                term.red("\n종료되었습니다!\n");
+                            if (!res)
+                                term.white("아무일도 일어나지않았습니다!\n");
+                            process.exit(0);
+                        })
+                            .catch(function (e) {
+                            console.error(e);
+                            process.exit(0);
+                        });
+                    });
+                    return [2 /*return*/];
+            }
         });
     });
 };
