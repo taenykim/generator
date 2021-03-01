@@ -1,53 +1,18 @@
-const fse = require("fs-extra");
-const path = require("path");
-const _createPrompt = require("./prompt-term");
+import { selectItems } from "./data";
+import { PromptOptions } from "./types";
+import createPrompt from "./prompt";
 
-interface ItemValue {
-  dirName?: string;
-  description: string;
-}
-
-export interface Items {
-  [title: string]: ItemValue;
-}
-
-const items: Items = {
-  "ts-webpack": {
-    dirName: "ts-webpack",
-    description: "TypeScript + Webpack",
-  },
-  "js-webpack": {
-    dirName: "js-webpack",
-    description: "JavaScript + Webpack",
-  },
-  quit: {
-    description: "quit generator",
-  },
-};
-
-const dest = "temp";
-
-const inputHandler = async (input: keyof Items) => {
-  if (input !== "quit") {
-    const targetDirectoryName = path.join(
-      __dirname,
-      `../lib/${items[input].dirName}`
-    );
-    const destDirectoryName = path.join(process.cwd(), dest);
-
-    await fse.copy(targetDirectoryName, destDirectoryName);
-  }
-  process.exit(0);
-};
+const DEFAULT_DEST_DIR_NAME = "temp";
+const QUESTION_MESSAGE = "생성할 보일러 플레이트를 선택해주세요.\n";
 
 const run = () => {
-  const prompt = _createPrompt();
-
-  const options = {
-    items,
+  const selectItemMap = new Map(selectItems);
+  const options: PromptOptions = {
+    defaultDestDirName: DEFAULT_DEST_DIR_NAME,
+    questionMessage: QUESTION_MESSAGE,
   };
 
-  prompt(inputHandler, options);
+  createPrompt(selectItemMap, options);
 };
 
 module.exports = () => {
