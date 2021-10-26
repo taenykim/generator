@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsc && ./bin/run",
     "build": "tsc",
-    "release": "node releaseIt.js"
+    "release": "release-it"
   },
   "repository": {
     "type": "git",

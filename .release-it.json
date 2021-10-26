@@ -1,4 +1,7 @@
 {
+  "hooks": {
+    "after:init": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
   "npm": {
     "publish": false
   }
