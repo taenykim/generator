@@ -6,7 +6,8 @@
   "bin": "./bin/run",
   "scripts": {
     "dev": "tsc && ./bin/run",
-    "build": "tsc"
+    "build": "tsc",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "@types/fs-extra": "^9.0.8",
     "@types/node": "^14.14.31",
     "@types/terminal-kit": "^1.28.2",
+    "release-it": "^14.11.6",
     "typescript": "^4.2.2"
   }
 }
